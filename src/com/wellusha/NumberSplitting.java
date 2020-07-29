@@ -1,7 +1,6 @@
-package com.company;
+package com.wellusha;
 
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;

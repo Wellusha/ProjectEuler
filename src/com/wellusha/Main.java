@@ -1,4 +1,4 @@
-package com.company;
+package com.wellusha;
 
 import java.util.concurrent.ExecutionException;
 
