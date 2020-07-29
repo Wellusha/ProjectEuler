@@ -1,21 +1,55 @@
 package com.wellusha;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class TriffleNumbers {
     private static final long MAX_THREE_POWER = 282429536481L;
 
-    public static long t(long n) {
-        long sum = 0;
-        for (int i = 2; i <= n; i++) {
-            if (conditionsMet(i))
-                sum += i;
+    public class Task implements Callable<Long> {
+        private long start, finish;
+        public Task(long start, long finish) {
+            this.start = start;
+            this.finish = finish;
         }
+
+        @Override
+        public Long call() throws Exception {
+            long sum = 0;
+            for (long i = start + 1; i <= finish; i++) {
+                if (conditionsMet(i))
+                    sum += i;
+            }
+            return sum;
+        }
+    }
+
+    public long t(long n) throws ExecutionException, InterruptedException {
+        int theadN = 1000;
+        long step = n / theadN;
+        long sum = 0;
+
+        ExecutorService executorService = Executors.newFixedThreadPool(theadN);
+        List<Future<Long>> futures = new ArrayList<>();
+        for (int i = 0; i < theadN; i++) {
+            futures.add(executorService.submit(new Task(step * i, step * (i + 1))));
+        }
+        for (int i = 0; i < theadN; i++) {
+            sum += futures.get(i).get();
+        }
+        executorService.shutdown();
+
         return sum;
     }
 
-    public static boolean conditionsMet(long num) {
+    public boolean conditionsMet(long num) {
         long numerator, denominator;
         numerator = omega(num);
         denominator = num;
@@ -30,13 +64,13 @@ public class TriffleNumbers {
         return isPowerOfThree(denominator);
     }
 
-    public static long gcd(long a, long b) {
+    public long gcd(long a, long b) {
         if (b == 0)
             return (a);
         return gcd(b, a % b);
     }
 
-    public static Set<Long> getDivisors(long num) {
+    public Set<Long> getDivisors(long num) {
         Set<Long> divisors = new HashSet<>();
 
         divisors.add(1L);
@@ -49,11 +83,11 @@ public class TriffleNumbers {
         return divisors;
     }
 
-    public static boolean isPowerOfThree(long num) {
-        return MAX_THREE_POWER % num == 0;
+    public boolean isPowerOfThree(long num) {
+        return (MAX_THREE_POWER % num == 0) && (num != 1);
     }
 
-    public static long omega(long num) {
+    public long omega(long num) {
         Set<Long> divisors = getDivisors(num);
         long sum = 0;
         for (Long aLong : divisors) {
