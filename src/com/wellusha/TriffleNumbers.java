@@ -1,9 +1,7 @@
 package com.wellusha;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -32,7 +30,7 @@ public class TriffleNumbers {
     }
 
     public long t(long n) throws ExecutionException, InterruptedException {
-        int theadN = 1000;
+        int theadN = 10;
         long step = n / theadN;
         long sum = 0;
 
@@ -66,33 +64,22 @@ public class TriffleNumbers {
 
     public long gcd(long a, long b) {
         if (b == 0)
-            return (a);
+            return a;
         return gcd(b, a % b);
     }
 
-    public Set<Long> getDivisors(long num) {
-        Set<Long> divisors = new HashSet<>();
-
-        divisors.add(1L);
-        for (long i = 2; i <= num / 2; i++) {
-            if (num % i == 0)
-                divisors.add(i);
-        }
-        divisors.add(num);
-
-        return divisors;
-    }
-
     public boolean isPowerOfThree(long num) {
-        return (MAX_THREE_POWER % num == 0) && (num != 1);
+        if (num == 1) return false;
+        return MAX_THREE_POWER % num == 0;
     }
 
     public long omega(long num) {
-        Set<Long> divisors = getDivisors(num);
-        long sum = 0;
-        for (Long aLong : divisors) {
-            sum += aLong;
+        long sum = 1;
+        for (long i = 2; i <= num / 2; i++) {
+            if (num % i == 0)
+                sum += i;
         }
+        sum += num;
         return sum;
     }
 }
