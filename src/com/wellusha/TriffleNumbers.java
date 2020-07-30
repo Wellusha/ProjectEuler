@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class TriffleNumbers {
-    private static final long MAX_THREE_POWER = 282429536481L;
+    private static final long MAX_THREE_POWER = 205891132094649L;
 
     public class Task implements Callable<Long> {
         private long start, finish;
@@ -75,11 +75,18 @@ public class TriffleNumbers {
 
     public long omega(long num) {
         long sum = 1;
-        for (long i = 2; i <= num / 2; i++) {
-            if (num % i == 0)
-                sum += i;
+        for (long i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                if (num / i == i)
+                    sum += i;
+                else {
+                    sum += i;
+                    sum += num / i;
+                }
+            }
         }
         sum += num;
+
         return sum;
     }
 }

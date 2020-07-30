@@ -36,7 +36,7 @@ public class NumberSplitting {
     }
     long t(long n) throws ExecutionException, InterruptedException {
         long sum = 0;
-        int threadNum = 100;
+        int threadNum = 10;
         ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
 
         long root = (long)sqrt((double)n);
