@@ -1,8 +1,10 @@
-package com.wellusha;
+package com.wellusha.FivePercentDiff;
+
+import com.wellusha.Problem;
 
 public class LargestPrimeFactor extends Problem {
     @Override
-    long returnValue(long initialValue) {
+    public long returnValue(long initialValue) {
         long maxFactor = 2;
         while (initialValue % 2 == 0)
             initialValue /= 2;

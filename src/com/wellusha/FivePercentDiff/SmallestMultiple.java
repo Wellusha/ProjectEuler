@@ -1,8 +1,10 @@
-package com.wellusha;
+package com.wellusha.FivePercentDiff;
+
+import com.wellusha.Problem;
 
 public class SmallestMultiple extends Problem {
     @Override
-    long returnValue(long initialValue) {
+    public long returnValue(long initialValue) {
         boolean divisible;
         long num = 1;
         while (true) {

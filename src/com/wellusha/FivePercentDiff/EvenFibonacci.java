@@ -1,4 +1,6 @@
-package com.wellusha;
+package com.wellusha.FivePercentDiff;
+
+import com.wellusha.Problem;
 
 public class EvenFibonacci extends Problem {
     long findNext(long prevPrev, long prev) {
@@ -10,7 +12,7 @@ public class EvenFibonacci extends Problem {
     }
 
     @Override
-    long returnValue(long initialValue) {
+    public long returnValue(long initialValue) {
         long prevPrev = 1;
         long prev = 2;
         long num = findNext(prevPrev, prev);

@@ -1,4 +1,6 @@
-package com.wellusha;
+package com.wellusha.FivePercentDiff;
+
+import com.wellusha.Problem;
 
 public class MultipleOfThreeAndFive extends Problem {
     boolean isFiveMult(long num) {
@@ -10,7 +12,7 @@ public class MultipleOfThreeAndFive extends Problem {
     }
 
     @Override
-    long returnValue(long initialValue) {
+    public long returnValue(long initialValue) {
         long sum = 0;
         for (int i = 2; i < initialValue; i++) {
             if (isThreeMult(i) || isFiveMult(i))

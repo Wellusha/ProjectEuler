@@ -1,8 +1,10 @@
-package com.wellusha;
+package com.wellusha.FivePercentDiff;
+
+import com.wellusha.Problem;
 
 public class LargestPalindromeProduct extends Problem {
     @Override
-    long returnValue(long initialValue) {
+    public long returnValue(long initialValue) {
         long maxPalindrome = 0;
         long num;
         for (long i = initialValue; i < 1000; i++) {
