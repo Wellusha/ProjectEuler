@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class NumberSplitting {
+public class NumberSplitting extends Problem {
     public class Task implements Callable<Long> {
         private long start;
         private long finish;
@@ -34,21 +34,28 @@ public class NumberSplitting {
             return sum;
         }
     }
-    long t(long n) throws ExecutionException, InterruptedException {
+
+    @Override
+    long returnValue(long initialValue) {
         long sum = 0;
         int threadNum = 10;
         ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
 
-        long root = (long)sqrt((double)n);
+        long root = (long)sqrt((double)initialValue);
         long step = root / threadNum;
         List<Future<Long>> futures = new ArrayList<>();
         for (int i = 0; i < threadNum; i++) {
              futures.add(executorService.submit(new Task(step * i, step * (i + 1))));
         }
-        for (int i = 0; i < threadNum; i++) {
-            sum += futures.get(i).get();
+        try {
+            for (int i = 0; i < threadNum; i++) {
+                sum += futures.get(i).get();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            executorService.shutdown();
         }
-        executorService.shutdown();
 
         return sum;
     }

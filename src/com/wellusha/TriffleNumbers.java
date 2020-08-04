@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class TriffleNumbers {
+public class TriffleNumbers extends Problem {
     private static final long MAX_THREE_POWER = 205891132094649L;
 
     public class Task implements Callable<Long> {
@@ -29,9 +29,9 @@ public class TriffleNumbers {
         }
     }
 
-    public long t(long n) throws ExecutionException, InterruptedException {
+    public long returnValue(long initialValue) {
         int theadN = 10;
-        long step = n / theadN;
+        long step = initialValue / theadN;
         long sum = 0;
 
         ExecutorService executorService = Executors.newFixedThreadPool(theadN);
@@ -39,10 +39,15 @@ public class TriffleNumbers {
         for (int i = 0; i < theadN; i++) {
             futures.add(executorService.submit(new Task(step * i, step * (i + 1))));
         }
-        for (int i = 0; i < theadN; i++) {
-            sum += futures.get(i).get();
+        try {
+            for (int i = 0; i < theadN; i++) {
+                sum += futures.get(i).get();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            executorService.shutdown();
         }
-        executorService.shutdown();
 
         return sum;
     }
